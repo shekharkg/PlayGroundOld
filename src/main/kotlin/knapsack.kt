@@ -1,5 +1,5 @@
-var counter = 0
-val matrix: Array<IntArray> = Array(5) { IntArray(8) { -1 } }
+private var counter = 0
+private val matrix: Array<IntArray> = Array(5) { IntArray(8) { -1 } }
 
 fun main() {
     val weight = arrayOf(1, 3, 4, 5)
@@ -18,7 +18,7 @@ fun main() {
 
 }
 
-fun knapsackWithTopDown(wt: Array<Int>, v: Array<Int>, w: Int, n: Int): Int {
+private fun knapsackWithTopDown(wt: Array<Int>, v: Array<Int>, w: Int, n: Int): Int {
     for (i in 0..n)
         for (j in 0..w) {
             matrix[i][j] = when {
@@ -33,7 +33,7 @@ fun knapsackWithTopDown(wt: Array<Int>, v: Array<Int>, w: Int, n: Int): Int {
 }
 
 
-fun knapsackWithRecursion(w: Array<Int>, v: Array<Int>, W: Int, n: Int): Int {
+private fun knapsackWithRecursion(w: Array<Int>, v: Array<Int>, W: Int, n: Int): Int {
     println("Counter: ${counter++}, W -> $W & n: $n")
     if (n == 0 || W == 0) return 0
 
@@ -47,7 +47,7 @@ fun knapsackWithRecursion(w: Array<Int>, v: Array<Int>, W: Int, n: Int): Int {
     }
 }
 
-fun knapsackWithRecursionAndMemoization(w: Array<Int>, v: Array<Int>, W: Int, n: Int): Int {
+private fun knapsackWithRecursionAndMemoization(w: Array<Int>, v: Array<Int>, W: Int, n: Int): Int {
     println("Counter: ${counter++}, W -> $W & n: $n")
     if (n == 0 || W == 0) return 0
 
