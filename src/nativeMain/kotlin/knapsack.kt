@@ -1,5 +1,5 @@
 var counter = 0
-val matrix: Array<IntArray> = Array(8) { IntArray(8) { -1 } }
+val matrix: Array<IntArray> = Array(5) { IntArray(8) { -1 } }
 
 fun main() {
     val weight = arrayOf(1, 3, 4, 5)
@@ -7,9 +7,31 @@ fun main() {
     val capacity = 7
 
 
-    println("knapsackWithRecursion RESULT: ${knapsackWithRecursion(weight, value, capacity, weight.size)}")
-    println("knapsackWithRecursionAndMemoization RESULT: ${knapsackWithRecursionAndMemoization(weight, value, capacity, weight.size)}")
+//    println("knapsackWithRecursion RESULT: ${knapsackWithRecursion(weight, value, capacity, weight.size)}")
+//    println("knapsackWithRecursionAndMemoization RESULT: ${knapsackWithRecursionAndMemoization(weight, value, capacity, weight.size)}")
+    println("knapsackWithTopDown RESULT: ${knapsackWithTopDown(weight, value, capacity, weight.size)}")
+
+//    println("Counter: $counter")
+//    for (arr in matrix)
+//        println(arr.contentToString())
+
+
 }
+
+fun knapsackWithTopDown(wt: Array<Int>, v: Array<Int>, w: Int, n: Int): Int {
+    for (i in 0..n)
+        for (j in 0..w) {
+            matrix[i][j] = when {
+                i == 0 || j == 0 -> 0
+                wt[i - 1] <= j -> maxOf(v[i - 1] + matrix[i - 1][j - wt[i - 1]], matrix[i - 1][j])
+                else -> matrix[i - 1][j]
+            }
+            counter++
+        }
+
+    return matrix[n][w]
+}
+
 
 fun knapsackWithRecursion(w: Array<Int>, v: Array<Int>, W: Int, n: Int): Int {
     println("Counter: ${counter++}, W -> $W & n: $n")
@@ -20,8 +42,8 @@ fun knapsackWithRecursion(w: Array<Int>, v: Array<Int>, W: Int, n: Int): Int {
             v[n - 1] + knapsackWithRecursion(w, v, W - w[n - 1], n - 1),
             knapsackWithRecursion(w, v, W, n - 1)
         )
-        w[n - 1] > W -> knapsackWithRecursion(w, v, W, n - 1)
-        else -> 0
+//        w[n - 1] > W
+        else -> knapsackWithRecursion(w, v, W, n - 1)
     }
 }
 
@@ -41,10 +63,10 @@ fun knapsackWithRecursionAndMemoization(w: Array<Int>, v: Array<Int>, W: Int, n:
             )
             matrix[n][W]
         }
-        w[n - 1] > W -> {
+        //w[n - 1] > W
+        else -> {
             matrix[n][W] = knapsackWithRecursionAndMemoization(w, v, W, n - 1)
             matrix[n][W]
         }
-        else -> 0
     }
 }
